@@ -5,21 +5,17 @@ import "./Remittance.sol";
 contract RemittanceFactory {
 
   address[] public contracts;
+  event Created(address addr);
 
-  function getContractCount() 
-    public
-    constant
-    returns(uint contractCount)
-  {
+  function getContractCount() public constant returns(uint contractCount) {
     return contracts.length;
   }
 
-  function newRemittance(bytes32 secretHash)
-    public
-    returns(address newContract)
-  {
-    Remittance c = new Remittance(secretHash);
+  function createRemittance(bytes32 secretHash) public payable returns(address newContract) {
+    require(secretHash != 0);
+    Remittance c = (new Remittance).value(msg.value)(secretHash);
     contracts.push(c);
+    Created(c);
     return c;
   }
 }
