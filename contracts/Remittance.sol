@@ -4,6 +4,9 @@ contract Remittance {
 	bytes32 private secretHash;
 	address private owner;
 
+	// "secret" is the password Alice gives to Bob.
+	// Alice hashes the address of Claire together with this password on contract creation.
+
 	event Transfer(address indexed _from, address indexed _to, uint256 _value);
 	event Kill();
 
